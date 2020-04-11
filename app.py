@@ -33,7 +33,6 @@ def make_pdf_name(profil):
     j = "%s%s%s-%s%s-%s-%s" % (d[6:10], d[3:5], d[0:2], h, m, profil['PROFIL_NAME'], profil['RAISONS'][0])
     return (j)
     
-        
 @route('/')
 def hello():
     return template('hello')
@@ -53,7 +52,7 @@ def static_pdf(filepath):
     return pdf.getvalue()
 
     
-@route('/gen', method='POST')
+@route('/gen', method=['GET', 'POST'])
 def gen():
     global pdf
     global pdf_key
@@ -68,13 +67,30 @@ def gen():
         else:
             profil[k.upper()] = v
 
+    if ('AUTO' in profil):
+        if ('FAIT_LE' in profil):
+            del profil['FAIT_LE']
+        del profil['FAIT_H']
+        del profil['FAIT_M']
+        del profil['SORT_LE']
+        del profil['SORT_H']
+        del profil['SORT_M']
+            
     pdf.seek(0)
     pdf.write(make_attestation(profil).read())
     print(type(pdf))
     pdf_name = "attestation-%s.pdf" % make_pdf_name(profil)
     pdf_key = "%s.pdf" % uuid.uuid4().hex
 
-    return pdf_key
+    
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return pdf_key
+    else:
+        response.set_header('Content-type', 'application/pdf')
+        response.set_header("Content-Disposition", "attachment; filename=%s" % pdf_name)
+        response.content_length = len(pdf.getvalue())
+        pdf.seek(0)
+        return pdf.getvalue()
 
 if __name__ == "__main__":
     config = open_and_load_config()

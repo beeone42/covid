@@ -46,5 +46,8 @@ Profils:
 </select>
 
 <br/>
+<input type='submit' id='url' value='url'>
 <input type='submit' id='gen' value='generate'>
 </form>
+
+<span id='url'></span>

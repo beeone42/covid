@@ -27,10 +27,11 @@ def fill_item(profil, item, val):
 def fill_profil(profil):
     
     fill_item(profil, 'FAIT_A',  profil['VILLE'])
+
     fill_item(profil, 'FAIT_LE', now.strftime("%d/%m/%Y"))
     fill_item(profil, 'FAIT_H',  now.strftime("%H"))
     fill_item(profil, 'FAIT_M',  now.strftime("%M"))
-
+    
     fill_item(profil, 'SORT_LE', profil['FAIT_LE'])
     fill_item(profil, 'SORT_H',  profil['FAIT_H'])
     fill_item(profil, 'SORT_M',  profil['FAIT_M'])
@@ -105,9 +106,9 @@ def make_attestation(profil):
     can.drawString(134, 613, "%s %s %s" % (profil['ADDR'], profil['CP'], profil['VILLE']))
 
     can.drawString(111, 226, profil['FAIT_A'])
-    can.drawString( 92, 200, profil['FAIT_LE'])
-    can.drawString(200, 201, profil['FAIT_H'])
-    can.drawString(220, 201, profil['FAIT_M'])
+    can.drawString( 92, 200, profil['SORT_LE'])
+    can.drawString(200, 201, profil['SORT_H'])
+    can.drawString(220, 201, profil['SORT_M'])
 
 
     can.setFont("Helvetica", 19)

@@ -133,6 +133,13 @@ $(function(){
 		window.location.href = "pdf/" + data;
 	    });
 	}
+	else
+	if (id == 'url')
+	{
+	    
+	    ref = window.location.protocol + '//'+ window.location.hostname + window.location.pathname + 'gen?' +  form_data + '&auto=1';
+	    $("span#url").html('<a href="'+ref+'">'+$("#profil_name").val() + '-' + $("select[name=raisons]").val() + '</a>')
+	}
 	return false;
     });
 
