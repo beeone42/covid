@@ -68,7 +68,7 @@ def make_qrcode(profil, png):
 
 
     
-def make_attestation(profil, fname):
+def make_attestation(profil):
 
     fill_profil(profil)
     
@@ -158,10 +158,20 @@ def make_attestation(profil, fname):
 
 
     # finally, write "output" to a real file
-    outputStream = open(fname, "wb")
-    output.write(outputStream)
-    outputStream.close()
+    #outputStream = open("res.pdf", "wb")
+    #output.write(outputStream)
+    #outputStream.close()
 
+    res = io.BytesIO()
+    output.write(res)
+    res.seek(0)
+    return (res)
+    
+    
 
 if __name__ == "__main__":
-    make_attestation(profil, "./out/destination")
+    pdf = make_attestation(profil)
+    outputStream = open("./out/destination", "wb")
+    pdf.write(outputStream)
+    outputStream.close()
+
