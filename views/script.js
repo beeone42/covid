@@ -95,51 +95,52 @@ $(function(){
     var now = new Date();
     $("input[name=sort_le]").val(now.toLocaleDateString('fr-FR'));
     $("input[name=sort_hm]").val(now.toLocaleTimeString('fr-FR').substring(0,5));
-    now.setMinutes(now.getMinutes() - 15);
+    
+    now.setMinutes(now.getMinutes() - 7);
     $("input[name=fait_hm]").val(now.toLocaleTimeString('fr-FR').substring(0,5));
 
-    $('form').submit(function(event){
-	event.preventDefault();
-	//console.log(event);
-	id = event.originalEvent.submitter.id;
-	console.log(id);
 
+    $('button#save').click(function() {
+	console.log('click save');
+	var datas = array_to_obj($("#covid-form").serializeArray());
+	profil_id = $("#profil_name").val();
+	save_profil(profil_id, datas);
+    });
+    
+    $('button#delete').click(function() {
+	console.log('click delete');
+	profil_id = $("#profil_name").val();
+	delete_profil(profil_id, datas);
+    });
+    
+    $('button#gen').click(function() {
+	
+	console.log('click gen');
+	
 	$("input[name=sort_h]").val($("input[name=sort_hm]").val().split(':')[0])
 	$("input[name=sort_m]").val($("input[name=sort_hm]").val().split(':')[1])
 	
 	$("input[name=fait_h]").val($("input[name=fait_hm]").val().split(':')[0])
 	$("input[name=fait_m]").val($("input[name=fait_hm]").val().split(':')[1])
-	
-	var post_url = id;
-	var form_data = $(this).serialize();
-	var datas = array_to_obj($(this).serializeArray());
 
-	if (id == 'save')
-	{
-	    profil_id = $("#profil_name").val();
-	    save_profil(profil_id, datas);
-	}
-	else
-	if (id == 'delete')
-	{
-	    profil_id = $("#profils").val();
-	    delete_profil(profil_id);
-	}
-	else
-	if (id == 'gen')
-	{
-	    $.post( post_url, form_data, function( data ) {
-		console.log(data);
-		window.location.href = "pdf/" + data;
-	    });
-	}
-	else
-	if (id == 'url')
-	{
-	    
-	    ref = window.location.protocol + '//'+ window.location.hostname + window.location.pathname + 'gen?' +  form_data + '&auto=1';
-	    $("span#url").html('<a href="'+ref+'">'+$("#profil_name").val() + '-' + $("select[name=raisons]").val() + '</a>')
-	}
+	var form_data = $("#covid-form").serialize();
+	
+	$.post('gen', form_data, function( data ) {
+	    console.log(data);
+	    window.location.href = "pdf/" + data;
+	});
+    });
+
+    $('button#url').click(function() {
+	console.log('click url');
+	var form_data = $("#covid-form").serialize();
+	ref = window.location.protocol + '//'+ window.location.hostname + window.location.pathname + 'gen?' +  form_data + '&auto=1';
+	$("span#url").html('<a href="'+ref+'">'+$("#profil_name").val() + '-' + $("select[name=raisons]").val() + '</a>')
+    });
+
+   
+    $('form').submit(function(event){
+	event.preventDefault();
 	return false;
     });
 

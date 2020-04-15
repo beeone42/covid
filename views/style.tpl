@@ -6,7 +6,7 @@ body {
     margin: 0;
 }
 div {
-    width: fit-content;
+//    width: 25em;
     padding: 1em;
 }
 input[type=text], select {
