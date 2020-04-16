@@ -4,9 +4,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.utils import ImageReader
 import qrcode
-from datetime import datetime
-
-now = datetime.now()
+from datetime import datetime, timedelta
 
 profil = {
     'PRENOM':  "Jean",
@@ -25,16 +23,19 @@ def fill_item(profil, item, val):
 
     
 def fill_profil(profil):
+
+    now = datetime.now()
+    old = datetime.now() - timedelta(minutes=12)
     
     fill_item(profil, 'FAIT_A',  profil['VILLE'])
 
-    fill_item(profil, 'FAIT_LE', now.strftime("%d/%m/%Y"))
-    fill_item(profil, 'FAIT_H',  now.strftime("%H"))
-    fill_item(profil, 'FAIT_M',  now.strftime("%M"))
+    fill_item(profil, 'FAIT_LE', old.strftime("%d/%m/%Y"))
+    fill_item(profil, 'FAIT_H',  old.strftime("%H"))
+    fill_item(profil, 'FAIT_M',  old.strftime("%M"))
     
-    fill_item(profil, 'SORT_LE', profil['FAIT_LE'])
-    fill_item(profil, 'SORT_H',  profil['FAIT_H'])
-    fill_item(profil, 'SORT_M',  profil['FAIT_M'])
+    fill_item(profil, 'SORT_LE', now.strftime("%d/%m/%Y"))
+    fill_item(profil, 'SORT_H',  now.strftime("%H"))
+    fill_item(profil, 'SORT_M',  now.strftime("%M"))
 
 
 ###############################

@@ -42,8 +42,8 @@ function update_profils_list()
 	console.log("--> " + p);
 	$s.append($("<option />").val(p).text(p));
     }
-    $s.click(function() {
-	show_profil_data($(this).val());
+    $s.change(function() {
+	show_profil_data($("select#profils").val());
     });
 }
 
@@ -135,6 +135,7 @@ $(function(){
 	console.log('click url');
 	var form_data = $("#covid-form").serialize();
 	ref = window.location.protocol + '//'+ window.location.hostname + window.location.pathname + 'gen?' +  form_data + '&auto=1';
+	console.log(ref);
 	$("span#url").html('<a href="'+ref+'">'+$("#profil_name").val() + '-' + $("select[name=raisons]").val() + '</a>')
     });
 

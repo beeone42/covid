@@ -60,6 +60,9 @@ def gen():
     
     print("gen")
 
+    del pdf
+    pdf = io.BytesIO()
+
     profil = {}
     for (k, v) in request.params.allitems():
         if (k == 'raisons'):
